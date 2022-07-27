@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 class UploadedFile(models.Model):
     cutomuser = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name='customuser')
+        get_user_model(), on_delete=models.CASCADE, related_name='customUser')
     file = models.FileField(upload_to="largefile")
     fiename = models.CharField(max_length=20)
 
