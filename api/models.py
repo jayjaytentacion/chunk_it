@@ -7,9 +7,12 @@ from django.contrib.auth import get_user_model
 
 class UploadedFile(models.Model):
     cutomuser = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name='customUser')
+        get_user_model(), on_delete=models.CASCADE, related_name='customUser', null=True, blank=True)
     file = models.FileField(upload_to="largefile")
-    fiename = models.CharField(max_length=20)
+    filename = models.CharField(max_length=20, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.filename
 
 
 class Chunks(models.Model):
