@@ -5,5 +5,6 @@ from . forms import UploadedFile, ChunkForm
 # Create your views here.
 def UploadView(request):
     uploadFile = UploadedFile()
-    context = {"form": uploadFile}
+    chunckSetting = ChunkForm()
+    context = {"upload": uploadFile, "chunk": chunckSetting}
     return render(request, "api/dashboard.html", context)
