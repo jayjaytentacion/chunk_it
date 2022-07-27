@@ -14,6 +14,6 @@ class UploadedFile(models.Model):
 
 class Chunks(models.Model):
     uploadedflie = models.ForeignKey(
-        UploadedFile, on_delete=models.CASCADE, related_name="uploadedflie")
+        UploadedFile, on_delete=models.CASCADE, related_name="uploadedfile")
     chunk = models.FileField(upload_to="chunks")
     chunksize = models.IntegerField()
