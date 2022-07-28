@@ -1,13 +1,12 @@
 from random import choices
 from django import forms
 from django.forms import ModelForm, Form
-from api.models import UploadedFile,Chunks
 from django import forms
-
+from . utils import ValidateFile
 
 class UploadFileForm(forms.Form):
-    zip= forms.FileField()
-    size=forms.IntegerField()
+    file = forms.FileField(required=True, validators=[ValidateFile])
+    size=forms.IntegerField(required=True)
 
 
 # class ChunkOrderForm(ModelForm):

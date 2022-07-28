@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path("dashboard/", views.DashBoardView, name = "dashboard"),
-    path("upload_file/", views.UploadFileView, name = "upload"),
-    path("chunk_file/", views.ChunkFileView, name="chunk"),
+    path("upload_file/", views.StartChunking, name = "upload"),
+    # path("chunk_file/", views.ChunkFileView, name="chunk"),
 ]

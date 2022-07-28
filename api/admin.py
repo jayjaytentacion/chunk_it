@@ -1,5 +1,4 @@
 from django.contrib import admin
-from . models import Chunks, UploadedFile
+from . models import ChunkOrder
 # Register your models here.
-admin.site.register(Chunks)
-admin.site.register(UploadedFile)
+admin.site.register(ChunkOrder)

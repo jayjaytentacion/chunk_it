@@ -5,9 +5,3 @@
     {{uploadform.as_p}}
     <input type="submit" value="Upload">
 </form>
-
-<form action="{% url 'chunk' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ chunksizeform.as_p }}
-    <input type="submit" value="Chunk">
-</form>
