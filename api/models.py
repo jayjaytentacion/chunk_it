@@ -1,4 +1,3 @@
-from distutils.command import upload
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -16,7 +15,7 @@ class UploadedFile(models.Model):
 
 
 class Chunks(models.Model):
-    uploadedflie = models.ForeignKey(
-        UploadedFile, on_delete=models.CASCADE, related_name="uploadedfile")
-    chunk = models.FileField(upload_to="chunks")
+    uploadedfile = models.ForeignKey(
+        UploadedFile, on_delete=models.CASCADE, related_name="uploadedfile", blank=True, null=True)
+    chunk = models.FileField(upload_to="chunks", blank=True, null=True)
     chunksize = models.IntegerField()
