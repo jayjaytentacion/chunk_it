@@ -5,11 +5,15 @@ from api.models import UploadedFile,Chunks
 from django import forms
 
 
+class UploadFileForm(forms.Form):
+    zip= forms.FileField()
+    size=forms.IntegerField()
 
-class ChunkOrderForm(ModelForm):
-    class Meta:
-        model=UploadedFile
-        fields=['file','chunk_size']
+
+# class ChunkOrderForm(ModelForm):
+#     class Meta:
+#         model=UploadedFile
+#         fields=['file','chunk_size']
 
 
 # class ChunkForm(ModelForm):
