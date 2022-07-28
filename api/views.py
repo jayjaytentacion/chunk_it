@@ -1,37 +1,60 @@
-from distutils.command.upload import upload
-from django.shortcuts import render, HttpResponse
-from . forms import UploadForm, ChunkForm
-from  . models import UploadedFile
-# Create your views here.
+# this is the views that contains the functionality of the chunk_it application
+from django.forms import ValidationError
+from django.shortcuts import render, HttpResponse, redirect
+from .forms import UploadForm, ChunkSizeForm
+from .models import UploadedFile
+
+
 
 def DashBoardView(request):
-    # this view is responsible for the uploading of the JSON and CSV files
-    # it also contains a form that will set the integer field and file size to chunk by
-    chunk_form = ChunkForm()
-    if request.method == "POST":
-         uploadFile = UploadForm(request.POST, request.FILES)
-         if uploadFile.is_valid():
-            file = uploadFile.save(commit = False)
-            file.filename = request.FILES['file'].name
-            request.session["fileId"] = file.id;
-            file.save()
-    else:
-        uploadFile = UploadForm()
-
-    context = {"upload": uploadFile, "chunk_form": chunk_form}
-    return render(request, "api/dashboard.html", context)
-
-
-def ChunkView(request):
-    try:
-        userFiles = request.session["fileId"];
-        print(userFiles)
-    except:
-        print("fileId session does not exist yet, you have to upload a file")
-        return HttpResponse("Failed")
-
+    # the dashboard view could be modified to be a single TemplateView 
+    # but for easy of use we will make use a function based view
+    upload_form = UploadForm()
+    chunk_size_form = ChunkSizeForm()
+    # first we check if a session exists and the value is not zero
+    # if that is successfull then we show the currently uploaded file
+    current_file = request.session.get("current_upload", 0)
+    if current_file != 0:
+        fileInstance = UploadedFile.objects.get(id = request.session["current_upload"])
+        upload_form = UploadForm(instance = fileInstance)
     
+        
+    context = {"uploadform": upload_form, "chunksizeform": chunk_size_form}
+    return render(request, "api/dashboard.html", context)
+       
+
+
+
+def UploadFileView(request):
+    # this view is responsible for the uploading and storing of json or csv files
+    # on the server
+    # we will be using sessions to keep track of the files that have been uploaded
     if request.method == "POST":
-        chunk = ChunkForm(request.POST)
-        del request.session["fileId"]
-        return HttpResponse("Successful")
+        file = UploadForm(request.POST, request.FILES)
+        if file.is_valid():
+            temp_file = file.save(commit=False)
+            temp_file.filename = request.FILES['file'].name
+            temp_file.save()
+            request.session['current_upload'] = temp_file.id
+            print(request.session['current_upload'])
+            # after the file has been uploaded then redirect the user to the dashboard
+            return redirect("dashboard")
+        else: 
+            # the right file was not submitted
+            raise ValidationError("We currently only support CSV and JSON")
+
+def ChunkFileView(request):
+    # this view is responsible for the chunking processes
+    # most of the logic for chunking will be referenced in the utils.py files
+    # first we check to see if a file has been recently uploaded
+    try: 
+        current_file = request.session["current_upload"]
+        print(current_file)
+    except:
+        return redirect("dashboard")
+    if current_file  != 0:
+        del request.session["current_upload"]
+        # if there is a current file then we can proceed to validate the file
+        target_file = UploadedFile.objects.get(id = current_file)
+        context = {"file": target_file}
+        return render(request, 'api/test.html', context)

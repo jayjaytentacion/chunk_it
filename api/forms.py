@@ -18,15 +18,15 @@ class ChunkForm(ModelForm):
         fields=['chunksize']
 
 
-# class ChunkSizeForm(forms.Form):
-#     sized_choices = (
-#         ("KB", "Kilobytes"),
-#         ("MB", "Megabytes"),
-#         ("GB", "Gigabytes"),)
+class ChunkSizeForm(forms.Form):
+    sized_choices = (
+        ("KB", "Kilobytes"),
+        ("MB", "Megabytes"),
+        ("GB", "Gigabytes"),)
     
-#     size_type = forms.MultipleChoiceField(
-#         required=False,
-#         widget=forms.RadioSelect,
-#         choices=sized_choices,
-#     )
-#     chunk_size = forms.IntegerField(required=True)
+    size_type = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.RadioSelect,
+        choices=sized_choices,
+    )
+    chunk_size = forms.IntegerField(required=True)
