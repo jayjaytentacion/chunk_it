@@ -6,27 +6,27 @@ from django import forms
 
 
 
-class UploadForm(ModelForm):
+class ChunkOrderForm(ModelForm):
     class Meta:
         model=UploadedFile
-        fields=['file']
+        fields=['file','chunk_size']
 
 
-class ChunkForm(ModelForm):
-    class Meta:
-        model=Chunks
-        fields=['chunksize']
+# class ChunkForm(ModelForm):
+#     class Meta:
+#         model=Chunks
+#         fields=['chunksize']
 
 
-class ChunkSizeForm(forms.Form):
-    sized_choices = (
-        ("KB", "Kilobytes"),
-        ("MB", "Megabytes"),
-        ("GB", "Gigabytes"),)
+# class ChunkSizeForm(forms.Form):
+#     sized_choices = (
+#         ("KB", "Kilobytes"),
+#         ("MB", "Megabytes"),
+#         ("GB", "Gigabytes"),)
     
-    size_type = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.RadioSelect,
-        choices=sized_choices,
-    )
-    chunk_size = forms.IntegerField(required=True)
+#     size_type = forms.MultipleChoiceField(
+#         required=False,
+#         widget=forms.RadioSelect,
+#         choices=sized_choices,
+#     )
+#     chunk_size = forms.IntegerField(required=True)
