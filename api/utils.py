@@ -59,6 +59,5 @@ def ChunkJson(in_file_path, objs_per_split):
   dir_path = Path(__file__).resolve().parent / "media"
   file_path = dir_path / f.name
   file_path.unlink() # remove file
-  dir_path.rmdir()   # remove directory
 
  

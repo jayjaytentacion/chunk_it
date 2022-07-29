@@ -50,18 +50,18 @@ def StartChunking(request):
 #             # the right file was not submitted
 #             raise ValidationError("We currently only support CSV and JSON")
 
-def ChunkFileView(request):
-    # this view is responsible for the chunking processes
-    # most of the logic for chunking will be referenced in the utils.py files
-    # first we check to see if a file has been recently uploaded
-    try: 
-        current_file = request.session["current_upload"]
-        print(current_file)
-    except:
-        return redirect("dashboard")
-    if current_file  != 0:
-        del request.session["current_upload"]
-        # if there is a current file then we can proceed to validate the file
-        target_file = UploadedFile.objects.get(id = current_file)
-        context = {"file": target_file}
-        return render(request, 'api/test.html', context)
+# def ChunkFileView(request):
+#     # this view is responsible for the chunking processes
+#     # most of the logic for chunking will be referenced in the utils.py files
+#     # first we check to see if a file has been recently uploaded
+#     try: 
+#         current_file = request.session["current_upload"]
+#         print(current_file)
+#     except:
+#         return redirect("dashboard")
+#     if current_file  != 0:
+#         del request.session["current_upload"]
+#         # if there is a current file then we can proceed to validate the file
+#         target_file = UploadedFile.objects.get(id = current_file)
+#         context = {"file": target_file}
+#         return render(request, 'api/test.html', context)
