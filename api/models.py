@@ -9,7 +9,7 @@ class ChunkOrder(models.Model):
     custom_user = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name='custom_User', null=True, blank=True)
     #zip= models.FileField(upload_to="largefile")
-    zip= models.CharField(max_length=20, blank=True, null=True)
+    zip= models.FileField()
     file_name = models.CharField(max_length=20, blank=True, null=True)
     chunk_size=models.IntegerField()
 
