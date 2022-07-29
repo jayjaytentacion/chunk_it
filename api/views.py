@@ -33,7 +33,7 @@ def StartChunking(request):
 
     else:
         form = UploadFileForm()
-    return redirect("dashboard")
+    return HttpResponse("Failed")
 
 
 # def UploadFileView(request):
