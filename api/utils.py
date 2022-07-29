@@ -9,6 +9,8 @@ import shutil
 from zipfile import ZipFile, ZIP_DEFLATED
 from django.forms import ValidationError
 from django.conf import settings
+import uuid
+
 
 
 def ValidateFile(UploadedFile):
@@ -51,14 +53,19 @@ def ChunkJson(in_file_path, objs_per_split):
 
 
   directory=pathlib.Path(base_dir + "/json/")
-  with zipfile.ZipFile("chunks.zip", "w", ZIP_DEFLATED, compresslevel=2) as archive:
+  # the first parameter in zipfile.Zipfile is the location where the zip file is saved
+  with zipfile.ZipFile(base_dir + "/" + generateUUID(), "w", ZIP_DEFLATED, compresslevel=2) as archive:
     for file_path in directory.iterdir():
       archive.write(file_path, arcname=file_path.name)
     archive.close()
   shutil.rmtree(directory)
+  # this code is responsible for deleting the initial uploaded file
   dir_path = Path(__file__).resolve().parent / "media"
   file_path = dir_path / f.name
   file_path.unlink() # remove file
-  dir_path.rmdir()   # remove directory
+
 
  
+def generateUUID():
+
+    return str(uuid.uuid4()) + ".zip";
