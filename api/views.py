@@ -1,9 +1,10 @@
 # this is the views that contains the functionality of the chunk_it application
-from django.forms import ValidationError
+from django.core.files.base import ContentFile
 from django.shortcuts import render, HttpResponse, redirect
 from .forms import UploadFileForm
 from . utils import handle_uploaded_file, ChunkJson, os
 from django.conf import settings
+from . models import ChunkOrder
 
 
 
@@ -26,6 +27,9 @@ def StartChunking(request):
             file_name = request.FILES['file'].name
             file_path = os.path.join(settings.MEDIA_ROOT, file_name)
             ChunkJson(file_path, chunk_size)
+            zip = "/media/chunk.zip"
+            order = ChunkOrder.objects.create(zip = zip, file_name = file_name, chunk_size = chunk_size)
+            return render(request, 'api/test.html', context = {"download":order.zip})
 
     else:
         form = UploadFileForm()
